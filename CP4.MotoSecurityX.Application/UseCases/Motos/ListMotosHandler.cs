@@ -28,3 +28,5 @@ public sealed class ListMotosHandler
         return PagedResult<MotoDto>.Create(data, total, page, pageSize, linkFactory);
     }
 }
+
+

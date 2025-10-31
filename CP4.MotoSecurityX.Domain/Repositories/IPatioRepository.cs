@@ -13,3 +13,5 @@ public interface IPatioRepository
     Task<int> CountAsync(CancellationToken ct = default);
     Task<IReadOnlyList<Patio>> ListAsync(int page, int pageSize, CancellationToken ct = default);
 }
+
+

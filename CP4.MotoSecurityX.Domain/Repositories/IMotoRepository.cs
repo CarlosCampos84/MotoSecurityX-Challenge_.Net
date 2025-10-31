@@ -13,3 +13,5 @@ public interface IMotoRepository
     Task<int> CountAsync(CancellationToken ct = default);
     Task<IReadOnlyList<Moto>> ListAsync(int page, int pageSize, CancellationToken ct = default);
 }
+
+

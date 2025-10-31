@@ -1,59 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using CP4.MotoSecurityX.Domain.Entities;
 using CP4.MotoSecurityX.Domain.Repositories;
 using CP4.MotoSecurityX.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CP4.MotoSecurityX.Infrastructure.Repositories;
-
-public sealed class UsuarioRepository : IUsuarioRepository
+namespace CP4.MotoSecurityX.Infrastructure.Repositories
 {
-    private readonly AppDbContext _db;
-    public UsuarioRepository(AppDbContext db) => _db = db;
-
-    public async Task<Usuario?> GetByIdAsync(Guid id, CancellationToken ct = default) =>
-        await _db.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id, ct);
-
-    public async Task<Usuario?> GetByEmailAsync(string email, CancellationToken ct = default) =>
-        await _db.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email, ct);
-
-    public async Task<List<Usuario>> ListAsync(int page, int pageSize, CancellationToken ct = default)
+    public class UsuarioRepository : IUsuarioRepository
     {
-        var skip = (page - 1) * pageSize;
-        return await _db.Usuarios
-            .AsNoTracking()
-            .OrderBy(u => u.Nome)
-            .ThenBy(u => u.Email)
-            .Skip(skip)
-            .Take(pageSize)
-            .ToListAsync(ct);
-    }
+        private readonly AppDbContext _db;
+        public UsuarioRepository(AppDbContext db) => _db = db;
 
-    public Task<int> CountAsync(CancellationToken ct = default) =>
-        _db.Usuarios.CountAsync(ct);
+        public async Task<Usuario?> GetByIdAsync(Guid id, CancellationToken ct = default)
+            => await _db.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id, ct);
 
-    public async Task AddAsync(Usuario usuario, CancellationToken ct = default)
-    {
-        _db.Usuarios.Add(usuario);
-        await _db.SaveChangesAsync(ct);
-    }
+        public async Task<Usuario?> GetByEmailAsync(string email, CancellationToken ct = default)
+            => await _db.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email, ct);
 
-    public async Task UpdateAsync(Usuario usuario, CancellationToken ct = default)
-    {
-        _db.Usuarios.Update(usuario);
-        await _db.SaveChangesAsync(ct);
-    }
+        // ← sua interface pede List<Usuario>
+        public async Task<List<Usuario>> ListAsync(int page, int pageSize, CancellationToken ct = default)
+        {
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
 
-    // <- agora retorna Task (sem bool), conforme a interface
-    public async Task DeleteAsync(Usuario usuario, CancellationToken ct = default)
-    {
-        if (usuario is null) return;
+            return await _db.Usuarios.AsNoTracking()
+                .OrderBy(u => u.Nome)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+        }
 
-        // se vier desanexado, anexa antes de remover
-        if (_db.Entry(usuario).State == EntityState.Detached)
-            _db.Usuarios.Attach(usuario);
+        // ← interface exige int
+        public async Task<int> CountAsync(CancellationToken ct = default)
+            => await _db.Usuarios.CountAsync(ct);
 
-        _db.Usuarios.Remove(usuario);
-        await _db.SaveChangesAsync(ct);
+        public async Task AddAsync(Usuario usuario, CancellationToken ct = default)
+        {
+            await _db.Usuarios.AddAsync(usuario, ct);
+            await _db.SaveChangesAsync(ct);
+        }
+
+        // interface: DeleteAsync(Usuario)
+        public async Task DeleteAsync(Usuario usuario, CancellationToken ct = default)
+        {
+            _db.Usuarios.Remove(usuario);
+            await _db.SaveChangesAsync(ct);
+        }
+
+        public async Task UpdateAsync(Usuario usuario, CancellationToken ct = default)
+        {
+            _db.Usuarios.Update(usuario);
+            await _db.SaveChangesAsync(ct);
+        }
     }
 }
-

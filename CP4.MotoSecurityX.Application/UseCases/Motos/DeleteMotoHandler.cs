@@ -11,3 +11,5 @@ public sealed class DeleteMotoHandler
     public Task<bool> HandleAsync(Guid id, CancellationToken ct = default)
         => _repo.DeleteAsync(id, ct);
 }
+
+

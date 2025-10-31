@@ -19,3 +19,5 @@ public sealed class CreateMotoHandler
         return new MotoDto(moto.Id, moto.Placa.Value, moto.Modelo, moto.DentroDoPatio, moto.PatioId);
     }
 }
+
+

@@ -27,3 +27,6 @@ public class Usuario
         Email = email.Trim();
     }
 }
+
+
+

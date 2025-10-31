@@ -9,7 +9,8 @@ using CP4.MotoSecurityX.Api.SwaggerExamples;
 namespace CP4.MotoSecurityX.Api.Controllers;
 
 [ApiController]
-[Route("api/patios")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/patios")]
 public class PatiosController : ControllerBase
 {
     private string Link(int page, int size) =>
@@ -83,4 +84,3 @@ public class PatiosController : ControllerBase
         return ok ? NoContent() : NotFound();
     }
 }
-

@@ -1,65 +1,69 @@
-namespace CP4.MotoSecurityX.Domain.Entities;
-
-public class Patio
+namespace CP4.MotoSecurityX.Domain.Entities
 {
-    private readonly List<Moto> _motos = new();
-    private Patio() { } // EF
-
-    public Guid Id { get; private set; } = Guid.NewGuid();
-    public string Nome { get; private set; } = "";
-    public string Endereco { get; private set; } = "";
-
-    public IReadOnlyCollection<Moto> Motos => _motos.AsReadOnly();
-
-    public Patio(string nome, string endereco)
+    public class Patio
     {
-        if (string.IsNullOrWhiteSpace(nome)) throw new ArgumentException("Nome inválido", nameof(nome));
-        if (string.IsNullOrWhiteSpace(endereco)) throw new ArgumentException("Endereço inválido", nameof(endereco));
-        Nome = nome.Trim();
-        Endereco = endereco.Trim();
-    }
+        private readonly List<Moto> _motos = new();
+        private Patio() { } // EF
 
-    /// <summary>
-    /// Admite a moto neste pátio, mantendo consistência do agregado.
-    /// </summary>
-    public void AdmitirMoto(Moto moto)
-    {
-        if (moto is null) throw new ArgumentNullException(nameof(moto));
+        public Guid Id { get; private set; } = Guid.NewGuid();
+        public string Nome { get; private set; } = "";
+        public string Endereco { get; private set; } = "";
 
-        // se já está neste pátio, não duplica nem reatribui desnecessariamente
-        if (moto.DentroDoPatio && moto.PatioId == Id)
-            return;
+        public IReadOnlyCollection<Moto> Motos => _motos.AsReadOnly();
 
-        moto.EntrarNoPatio(Id);
+        public Patio(string nome, string endereco)
+        {
+            if (string.IsNullOrWhiteSpace(nome)) throw new ArgumentException("Nome inválido", nameof(nome));
+            if (string.IsNullOrWhiteSpace(endereco)) throw new ArgumentException("Endereço inválido", nameof(endereco));
+            Nome = nome.Trim();
+            Endereco = endereco.Trim();
+        }
 
-        if (!_motos.Any(m => m.Id == moto.Id))
-            _motos.Add(moto);
-    }
+        /// <summary>
+        /// Admite a moto neste pátio, mantendo consistência do agregado.
+        /// </summary>
+        public void AdmitirMoto(Moto moto)
+        {
+            if (moto is null) throw new ArgumentNullException(nameof(moto));
 
-    /// <summary>
-    /// Remove a moto deste pátio, se presente.
-    /// </summary>
-    public void RemoverMoto(Moto moto)
-    {
-        if (moto is null) throw new ArgumentNullException(nameof(moto));
+            // se já está neste pátio, não duplica nem reatribui desnecessariamente
+            if (moto.DentroDoPatio && moto.PatioId == Id)
+                return;
 
-        // só "sai do pátio" se ela estava listada aqui
-        if (_motos.RemoveAll(m => m.Id == moto.Id) > 0)
-            moto.SairDoPatio();
-    }
-    public void AtualizarNome(string nome)
-    {
-        if (string.IsNullOrWhiteSpace(nome))
-            throw new ArgumentException("Nome inválido.", nameof(nome));
+            moto.EntrarNoPatio(Id);
 
-        Nome = nome.Trim();
-    }
+            if (!_motos.Any(m => m.Id == moto.Id))
+                _motos.Add(moto);
+        }
 
-    public void AtualizarEndereco(string endereco)
-    {
-        if (string.IsNullOrWhiteSpace(endereco))
-            throw new ArgumentException("Endereço inválido.", nameof(endereco));
+        /// <summary>
+        /// Remove a moto deste pátio, se presente.
+        /// </summary>
+        public void RemoverMoto(Moto moto)
+        {
+            if (moto is null) throw new ArgumentNullException(nameof(moto));
 
-        Endereco = endereco.Trim();
+            // só "sai do pátio" se ela estava listada aqui
+            if (_motos.RemoveAll(m => m.Id == moto.Id) > 0)
+                moto.SairDoPatio();
+        }
+
+        public void AtualizarNome(string nome)
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+                throw new ArgumentException("Nome inválido.", nameof(nome));
+
+            Nome = nome.Trim();
+        }
+
+        public void AtualizarEndereco(string endereco)
+        {
+            if (string.IsNullOrWhiteSpace(endereco))
+                throw new ArgumentException("Endereço inválido.", nameof(endereco));
+
+            Endereco = endereco.Trim();
+        }
     }
 }
+
+

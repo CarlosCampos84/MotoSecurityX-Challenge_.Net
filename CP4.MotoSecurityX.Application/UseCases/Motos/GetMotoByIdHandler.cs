@@ -14,3 +14,5 @@ public sealed class GetMotoByIdHandler
         return m is null ? null : new MotoDto(m.Id, m.Placa.Value, m.Modelo, m.DentroDoPatio, m.PatioId);
     }
 }
+
+
