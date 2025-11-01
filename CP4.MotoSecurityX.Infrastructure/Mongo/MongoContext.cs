@@ -12,16 +12,16 @@ namespace CP4.MotoSecurityX.Infrastructure.Mongo
     {
         public IMongoDatabase Database { get; }
 
-        public MongoContext(IOptions<MongoOptions> options)
+        public MongoContext(IMongoClient client, IOptions<MongoOptions> options)
         {
             var cfg = options.Value ?? throw new ArgumentNullException(nameof(options));
-            if (string.IsNullOrWhiteSpace(cfg.ConnectionString))
-                throw new ArgumentException("Mongo ConnectionString ausente ou inválida.");
             if (string.IsNullOrWhiteSpace(cfg.DatabaseName))
                 throw new ArgumentException("Mongo DatabaseName ausente ou inválido.");
 
-            var client = new MongoClient(cfg.ConnectionString);
             Database = client.GetDatabase(cfg.DatabaseName);
+
+            // (Opcional) Criar índices aqui
+            // CriarIndicesPadrao(Database);
         }
     }
 }

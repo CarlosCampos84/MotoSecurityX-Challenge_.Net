@@ -1,3 +1,4 @@
+using System.Linq;
 using CP4.MotoSecurityX.Application.Common;
 using CP4.MotoSecurityX.Application.DTOs;
 using CP4.MotoSecurityX.Domain.Repositories;
@@ -18,12 +19,14 @@ public sealed class ListMotosHandler
         var total = await _repo.CountAsync(ct);
         var itens = await _repo.ListAsync(page, pageSize, ct);
 
-        var data = itens.Select(m => new MotoDto(
-            m.Id,
-            m.Placa.ToString(),
-            m.Modelo,
-            m.DentroDoPatio,
-            m.PatioId));
+        var data = itens.Select(m => new MotoDto
+        {
+            Id            = m.Id,
+            Placa         = m.Placa.Value,
+            Modelo        = m.Modelo,
+            DentroDoPatio = m.DentroDoPatio,
+            PatioId       = m.PatioId
+        });
 
         return PagedResult<MotoDto>.Create(data, total, page, pageSize, linkFactory);
     }

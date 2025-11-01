@@ -11,6 +11,15 @@ public sealed class GetPatioByIdHandler
     public async Task<PatioDto?> HandleAsync(Guid id, CancellationToken ct = default)
     {
         var p = await _repo.GetByIdAsync(id, ct);
-        return p is null ? null : new PatioDto(p.Id, p.Nome, p.Endereco, p.Motos.Count);
+        if (p is null) return null;
+
+        return new PatioDto
+        {
+            Id       = p.Id,
+            Nome     = p.Nome,
+            Endereco = p.Endereco
+        };
     }
 }
+
+

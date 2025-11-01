@@ -11,6 +11,15 @@ public class GetUsuarioByIdHandler
     public async Task<UsuarioDto?> HandleAsync(Guid id, CancellationToken ct = default)
     {
         var u = await _repo.GetByIdAsync(id, ct);
-        return u is null ? null : new UsuarioDto(u.Id, u.Nome, u.Email);
+        if (u is null) return null;
+
+        return new UsuarioDto
+        {
+            Id    = u.Id,
+            Nome  = u.Nome,
+            Email = u.Email
+        };
     }
 }
+
+

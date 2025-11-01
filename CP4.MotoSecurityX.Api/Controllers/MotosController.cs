@@ -13,8 +13,8 @@ namespace CP4.MotoSecurityX.Api.Controllers;
 [Route("api/v{version:apiVersion}/motos")]
 public class MotosController : ControllerBase
 {
-    private string Link(int page, int size) =>
-        Url.ActionLink(nameof(List), values: new { page, pageSize = size }) ?? string.Empty;
+    private string Link(int page, int size) => 
+        Url.ActionLink(nameof(List), values: new { version = "1.0", page, pageSize = size }) ?? string.Empty;
 
     // LIST paginada + HATEOAS
     [HttpGet]
@@ -56,7 +56,7 @@ public class MotosController : ControllerBase
         CancellationToken ct)
     {
         var created = await handler.HandleAsync(dto, ct);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        return CreatedAtAction(nameof(GetById), new { version = "1.0", id = created.Id }, created);
     }
 
     // MOVER MOTO PARA PÁTIO
@@ -105,4 +105,6 @@ public class MotosController : ControllerBase
         return ok ? NoContent() : NotFound();
     }
 }
+
+
 

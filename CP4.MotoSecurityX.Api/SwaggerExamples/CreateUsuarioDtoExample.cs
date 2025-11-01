@@ -1,13 +1,16 @@
+namespace CP4.MotoSecurityX.Api.SwaggerExamples;
+
 using CP4.MotoSecurityX.Application.DTOs;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace CP4.MotoSecurityX.Api.SwaggerExamples;
-
-/// <summary>
-/// Exemplo de payload para criação de Usuário no Swagger.
-/// </summary>
 public sealed class CreateUsuarioDtoExample : IExamplesProvider<CreateUsuarioDto>
 {
-    public CreateUsuarioDto GetExamples() =>
-        new("Operador João", "joao@mottu.com");
+    public CreateUsuarioDto GetExamples()
+    {
+        // QUICK FIX: exemplo mínimo só pra compilar
+        return new CreateUsuarioDto();
+
+        // MELHOR (depois de confirmar propriedades do DTO):
+        // return new CreateUsuarioDto { Nome = "Operador João", Email = "joao@emottu.com" };
+    }
 }

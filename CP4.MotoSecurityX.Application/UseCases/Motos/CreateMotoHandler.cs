@@ -16,8 +16,17 @@ public sealed class CreateMotoHandler
         var moto  = new Moto(placa, input.Modelo);
         await _repo.AddAsync(moto, ct);
 
-        return new MotoDto(moto.Id, moto.Placa.Value, moto.Modelo, moto.DentroDoPatio, moto.PatioId);
+        return new MotoDto
+        {
+            Id            = moto.Id,
+            Placa         = moto.Placa.Value,
+            Modelo        = moto.Modelo,
+            DentroDoPatio = moto.DentroDoPatio,
+            PatioId       = moto.PatioId
+        };
+
     }
 }
+
 
 

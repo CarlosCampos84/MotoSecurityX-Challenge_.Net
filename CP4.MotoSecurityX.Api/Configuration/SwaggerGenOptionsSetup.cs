@@ -1,29 +1,26 @@
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 
-namespace CP4.MotoSecurityX.Api.Configuration;
-
-public class SwaggerGenOptionsSetup : IConfigureOptions<SwaggerGenOptions>
+namespace CP4.MotoSecurityX.Api.Configuration
 {
-    private readonly IApiVersionDescriptionProvider _provider;
-
-    public SwaggerGenOptionsSetup(IApiVersionDescriptionProvider provider)
-        => _provider = provider;
-
-    public void Configure(SwaggerGenOptions options)
+    internal sealed class SwaggerGenOptionsSetup : IConfigureOptions<SwaggerGenOptions>
     {
-        foreach (var desc in _provider.ApiVersionDescriptions)
+        public void Configure(SwaggerGenOptions options)
         {
-            options.SwaggerDoc(desc.GroupName, new OpenApiInfo
+            // Documento de API para a versão v1
+            options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "MotoSecurityX.Api",
-                Version = desc.ApiVersion.ToString(),
-                Description = "API para controle de motos, pátios e usuários"
+                Version = "v1",
+                Description = "API para controle de motos, pátios e usuários (Clean Architecture + DDD)"
             });
+
+            // Ativa anotações e exemplos
+            options.EnableAnnotations();
+            options.ExampleFilters();
         }
-        options.EnableAnnotations();
-        options.ExampleFilters();
     }
 }

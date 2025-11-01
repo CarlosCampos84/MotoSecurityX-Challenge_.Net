@@ -11,8 +11,15 @@ public sealed class GetMotoByIdHandler
     public async Task<MotoDto?> HandleAsync(Guid id, CancellationToken ct = default)
     {
         var m = await _repo.GetByIdAsync(id, ct);
-        return m is null ? null : new MotoDto(m.Id, m.Placa.Value, m.Modelo, m.DentroDoPatio, m.PatioId);
+        if (m is null) return null;
+
+        return new MotoDto
+        {
+            Id            = m.Id,
+            Placa         = m.Placa.Value,
+            Modelo        = m.Modelo,
+            DentroDoPatio = m.DentroDoPatio,
+            PatioId       = m.PatioId
+        };
     }
 }
-
-

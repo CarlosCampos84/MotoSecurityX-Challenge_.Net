@@ -14,7 +14,7 @@ namespace CP4.MotoSecurityX.Api.Controllers;
 public class PatiosController : ControllerBase
 {
     private string Link(int page, int size) =>
-        Url.ActionLink(nameof(List), values: new { page, pageSize = size }) ?? string.Empty;
+        Url.ActionLink(nameof(List), values: new { version = "1.0", page, pageSize = size }) ?? string.Empty;
 
     [HttpGet]
     [SwaggerOperation(Summary = "Lista pátios", Description = "Retorna lista paginada de pátios com HATEOAS")]
@@ -53,7 +53,7 @@ public class PatiosController : ControllerBase
         CancellationToken ct)
     {
         var created = await handler.HandleAsync(dto, ct);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        return CreatedAtAction(nameof(GetById), new { version = "1.0", id = created.Id }, created);
     }
 
     [HttpPut("{id:guid}")]
@@ -84,3 +84,6 @@ public class PatiosController : ControllerBase
         return ok ? NoContent() : NotFound();
     }
 }
+
+
+

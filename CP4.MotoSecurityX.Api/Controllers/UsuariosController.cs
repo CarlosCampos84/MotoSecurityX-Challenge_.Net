@@ -14,7 +14,7 @@ namespace CP4.MotoSecurityX.Api.Controllers;
 public class UsuariosController : ControllerBase
 {
     private string Link(int page, int size) =>
-        Url.ActionLink(nameof(List), values: new { page, pageSize = size }) ?? string.Empty;
+        Url.ActionLink(nameof(List), values: new { version = "1.0", page, pageSize = size }) ?? string.Empty;
 
     [HttpGet]
     [SwaggerOperation(Summary = "Lista usuários", Description = "Retorna lista paginada de usuários com HATEOAS")]
@@ -53,7 +53,7 @@ public class UsuariosController : ControllerBase
         CancellationToken ct)
     {
         var created = await handler.HandleAsync(dto, ct);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        return CreatedAtAction(nameof(GetById), new { version = "1.0", id = created.Id }, created);
     }
 
     [HttpPut("{id:guid}")]
@@ -84,3 +84,5 @@ public class UsuariosController : ControllerBase
         return ok ? NoContent() : NotFound();
     }
 }
+
+

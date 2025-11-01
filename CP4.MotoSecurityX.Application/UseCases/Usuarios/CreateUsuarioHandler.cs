@@ -13,6 +13,12 @@ public class CreateUsuarioHandler
     {
         var usuario = new Usuario(dto.Nome, dto.Email);
         await _repo.AddAsync(usuario, ct);
-        return new UsuarioDto(usuario.Id, usuario.Nome, usuario.Email);
+
+        return new UsuarioDto
+        {
+            Id    = usuario.Id,
+            Nome  = usuario.Nome,
+            Email = usuario.Email
+        };
     }
 }
