@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP4.MotoSecurityX.Applicati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP4.MotoSecurityX.Infrastructure", "CP4.MotoSecurityX.Infrastructure\CP4.MotoSecurityX.Infrastructure.csproj", "{9188C785-340A-4129-B48F-04A012ABE366}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CP4.MotoSecurityX.Tests", "CP4.MotoSecurityX.Tests\CP4.MotoSecurityX.Tests.csproj", "{FF77FD04-6B3A-422C-871D-0CBB4375984F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +33,9 @@ Global
 		{9188C785-340A-4129-B48F-04A012ABE366}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9188C785-340A-4129-B48F-04A012ABE366}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9188C785-340A-4129-B48F-04A012ABE366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF77FD04-6B3A-422C-871D-0CBB4375984F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF77FD04-6B3A-422C-871D-0CBB4375984F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF77FD04-6B3A-422C-871D-0CBB4375984F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF77FD04-6B3A-422C-871D-0CBB4375984F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

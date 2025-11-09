@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using CP4.MotoSecurityX.Api.SwaggerExamples;
+using CP4.MotoSecurityX.Api.Security;
 
 namespace CP4.MotoSecurityX.Api.Controllers;
 
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/usuarios")]
+[ApiKeyAuth]
 public class UsuariosController : ControllerBase
 {
     private string Link(int page, int size) =>

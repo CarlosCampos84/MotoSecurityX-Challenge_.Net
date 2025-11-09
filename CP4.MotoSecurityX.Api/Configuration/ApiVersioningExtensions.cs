@@ -25,3 +25,4 @@ namespace CP4.MotoSecurityX.Api.Configuration
         }
     }
 }
+
